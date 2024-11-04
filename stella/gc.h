@@ -1,3 +1,6 @@
+#ifndef STELLA_GC_H
+#define STELLA_GC_H
+
 #include <stdlib.h>
 #include <stdio.h>
 
@@ -54,3 +57,25 @@ void print_gc_state();
  * May be useful for debugging.
  */
 void print_gc_roots();
+
+typedef struct {
+ int gen;
+ int size;
+ void* start;
+ void* next;
+} heap;
+
+typedef struct {
+ int cycles_count;
+
+ heap* from;
+ heap* to;
+
+ void* scan;
+} gen;
+
+void print_state(const gen* g);
+void* try_alloc(const gen* g, size_t size_in_bytes);
+void collect(gen* g);
+
+#endif

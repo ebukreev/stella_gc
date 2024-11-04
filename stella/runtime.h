@@ -29,9 +29,9 @@ typedef struct {
 #define STELLA_OBJECT_SUCC_ARG(obj) STELLA_OBJECT_READ_FIELD(obj,0)
 
 /** Initialize new Stella object's TAG. */
-#define STELLA_OBJECT_INIT_TAG(obj, tag) (obj->object_header = ((obj->object_header >> 4) << 4) | tag)
+#define STELLA_OBJECT_INIT_TAG(obj, tag) (obj->object_header = ((obj->object_header & ~((1 << 4) - 1)) | tag))
 /** Initialize new Stella object's fields count. */
-#define STELLA_OBJECT_INIT_FIELDS_COUNT(obj, count) (obj->object_header = ((obj->object_header >> 8) << 8) | STELLA_OBJECT_HEADER_TAG(obj->object_header) | count << 4)
+#define STELLA_OBJECT_INIT_FIELDS_COUNT(obj, count) (obj->object_header = ((obj->object_header & ~(((1 << 4) - 1) << 4)) | count << 4))
 /** Initialize new Stella object's field. */
 #define STELLA_OBJECT_INIT_FIELD(obj, i, x) (obj->object_fields[i] = (void*)x)
 
@@ -82,27 +82,27 @@ void print_stella_stats();
 stella_object* stella_object_nat_rec(stella_object* n, stella_object* z, stella_object* f);
 
 /** The static Stella object for zero. */
-stella_object the_ZERO;
+extern stella_object the_ZERO;
 
 /** The static Stella object for unit. */
-stella_object the_UNIT;
+extern stella_object the_UNIT;
 
 /** The static Stella object for the empty list. */
-stella_object the_EMPTY;
+extern stella_object the_EMPTY;
 
 /** The static Stella object for empty tuple (zero-length tuple). */
-stella_object the_EMPTY_TUPLE;
+extern stella_object the_EMPTY_TUPLE;
 
 /** The static Stella object for false. */
-stella_object the_FALSE;
+extern stella_object the_FALSE;
 
 /** The static Stella object for true. */
-stella_object the_TRUE;
+extern stella_object the_TRUE;
 
 /** The bitmask for the fields count. */
-const int FIELD_COUNT_MASK;
+extern const int FIELD_COUNT_MASK;
 
 /** The bitmask for the Stella object tag. */
-const int TAG_MASK;
+extern const int TAG_MASK;
 
 #endif
